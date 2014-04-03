@@ -1,0 +1,9 @@
+<conduit name="{http://code.com/}HelloWorldServicePort.http-conduit"
+         xmlns:sec="http://cxf.apache.org/configuration/security"
+         xmlns="http://cxf.apache.org/transports/http/configuration">
+    <authorization>
+        <sec:UserName>s</sec:UserName>
+        <sec:Password>q</sec:Password>
+        <sec:AuthorizationType>Basic</sec:AuthorizationType>
+    </authorization>
+</conduit>

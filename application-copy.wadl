@@ -1,0 +1,2216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+    <doc title="TeamCity REST API" xml:lang="en">
+        See also http://confluence.jetbrains.net/display/TW/REST+API+Plugin
+    </doc>
+    <grammars>
+        <include href="xsd1.xsd">
+            <doc title="Generated" xml:lang="en"/>
+        </include>
+        <include href="xsd0.xsd">
+            <doc title="Generated" xml:lang="en"/>
+        </include>
+    </grammars>
+    <resources base="http://localhost:8080/bs/">
+        <resource path="/app/rest/changes">
+            <method id="serveChanges" name="GET">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="project" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildType" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="build" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRoot" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceChange" style="query"
+                           type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="start" style="query" type="xs:long"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="count" style="query" type="xs:int"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query" type="xs:string"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="changes"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="changes"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{changeLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveChange" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="change"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="change"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/parent-changes">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getParentChanges" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="changes"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="changes"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/parent-revisions">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeParentRevisions" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="items"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="items"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/vcs-root">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeVCSRoot" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instance-ref" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instance-ref" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/attributes">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeAttributes" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/duplicates">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeDuplicates" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="changes"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="changes"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/issues">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeIssue" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="issues"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="issues"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/buildTypes">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getRelatedBuildTypes" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{changeLocator}/firstBuilds">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="changeLocator" style="template"
+                       type="xs:string"/>
+                <method id="getChangeFirstBuilds" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest">
+            <method id="serveRoot" name="GET">
+                <response>
+                    <representation mediaType="text/plain"/>
+                </response>
+            </method>
+            <resource path="/version">
+                <method id="serveApiVersion" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/info">
+                <method id="servePluginInfo" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="plugin"
+                                            mediaType="stubs.application/xml"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/{btLocator}/{buildLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildFieldShort" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/server">
+            <method id="serveServerInfo" name="GET">
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="server"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="server"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/backup">
+                <method id="startBackup" name="POST">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="fileName" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="addTimestamp" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeConfigs" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeDatabase" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeBuildLogs" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includePersonalChanges" style="query"
+                               type="xs:boolean"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="getBackupStatus" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <method id="serveServerVersion" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/plugins">
+                <method id="servePlugins" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="plugins"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="plugins"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/users">
+            <method id="createUser" name="POST">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                        mediaType="stubs.application/json"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                        mediaType="*/*"/>
+                </response>
+            </method>
+            <method id="serveUsers" name="GET">
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="users"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="users"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{userLocator}/roles">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="userLocator" style="template"
+                       type="xs:string"/>
+                <method id="addRole" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceRoles" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="listRoles" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{userLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="userLocator" style="template"
+                       type="xs:string"/>
+                <method id="updateUser" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="serveUser" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="user"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{userLocator}/roles/{roleId}/{scope}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="userLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="scope" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="roleId" style="template" type="xs:string"/>
+                <method id="deleteRole" name="DELETE"/>
+                <method id="listRole" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addRoleSimple" name="PUT">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addRoleSimplePost" name="POST"/>
+            </resource>
+            <resource path="/{userLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="userLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveUserField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="setUserField" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{userLocator}/properties/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="userLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <method id="serveUserProperties" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="putUserProperty" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="removeUserProperty" name="DELETE"/>
+            </resource>
+            <resource path="/{userLocator}/properties">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="userLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveUserProperties" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/vcs-roots">
+            <method id="serveRoots" name="GET">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query" type="xs:string"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-roots"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-roots"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <method id="addRoot" name="POST">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-root"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-root"
+                                        mediaType="stubs.application/json"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-root"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-root"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{vcsRootLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="setField" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="serveField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootLocator}/properties/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <method id="deleteParameter" name="DELETE"/>
+                <method id="putParameter" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="serveProperty" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveRoot" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-root"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-root"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteRoot" name="DELETE"/>
+            </resource>
+            <resource path="/{vcsRootLocator}/instances/{vcsRootInstanceLocator}/properties">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootInstanceLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveRootInstanceProperties" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootLocator}/instances/{vcsRootInstanceLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootInstanceLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveInstanceField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="setInstanceField" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootLocator}/instances">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveRootInstances" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instances" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instances" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootLocator}/instances/{vcsRootInstanceLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootInstanceLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveRootInstance" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instance" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instance" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootLocator}/properties">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveProperties" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="changProperties" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteAllProperties" name="DELETE"/>
+            </resource>
+        </resource>
+        <resource path="/app/rest/agents">
+            <method id="serveAgents" name="GET">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeDisconnected" style="query"
+                           type="xs:boolean" default="true"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeUnauthorized" style="query"
+                           type="xs:boolean" default="true"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="agents-ref"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="agents-ref"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{agentLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="agentLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveAgent" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="agent"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="agent"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{agentLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="agentLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveAgentField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="setAgentField" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/builds">
+            <method id="serveAllBuilds" name="GET">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildType" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="status" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="triggeredByUser" style="query"
+                           type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includePersonal" style="query"
+                           type="xs:boolean"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeCanceled" style="query"
+                           type="xs:boolean"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlyPinned" style="query"
+                           type="xs:boolean"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="tag" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="agentName" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceBuild" style="query"
+                           type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceDate" style="query" type="xs:string"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="start" style="query" type="xs:long"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="count" style="query" type="xs:int"/>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query" type="xs:string"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{buildLocator}/resulting-properties/{propertyName}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="propertyName" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="getParameter" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/artifacts">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="getArtifacts" name="GET">
+                    <response>
+                        <representation mediaType="stubs.application/xml"/>
+                        <representation mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/pin/">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="pinBuild" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                </method>
+                <method id="getPinned" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="unpinBuild" name="DELETE">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/artifacts/metadata{path:(/.*)?}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="path" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="getArtifactMetadata" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="resolveParameters" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query"
+                               type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="file"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="file"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="deleteBuild" name="DELETE"/>
+                <method id="serveBuild" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="build"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="build"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/resulting-properties/">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildActualParameters" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/artifacts/children{path:(/.*)?}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="path" style="template" type="xs:string"
+                       default=""/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="getArtifactChildren" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="resolveParameters" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query"
+                               type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="files"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="files"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/artifacts/content{path:(/.*)?}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="path" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="getArtifactContent" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="resolveParameters" style="query"
+                               type="xs:boolean"/>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/artifacts/files{path:(/.*)?}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="path" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="getArtifactFilesContent" name="GET">
+                    <response>
+                        <representation mediaType="*/*"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/sources/files/{fileName:.+}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="fileName" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveSourceFile" name="GET">
+                    <response>
+                        <representation mediaType="stubs.application/octet-stream"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/related-issues">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildRelatedIssues" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="issuesUsages"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="issuesUsages"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildFieldByBuildOnly" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/statistics/">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildStatisticValues" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/statistics/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildStatisticValue" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/tags/">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveTags" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceTags" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addTags" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                </method>
+                <method id="addTag" name="POST">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{buildLocator}/comment">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="replaceComment" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                </method>
+                <method id="deleteComment" name="DELETE"/>
+            </resource>
+            <resource path="/{buildLocator}/statusIcon">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildStatusIcon" name="GET">
+                    <response>
+                        <representation mediaType="*/*"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/stubs.cctray">
+            <resource path="/projects.xml">
+                <method id="serveProjects" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="Projects"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="Projects"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/buildTypes">
+            <method id="serveBuildTypesXML" name="GET">
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{btLocator}/features/{featureId}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="featureId" style="template" type="xs:string"/>
+                <method id="getFeature" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="feature"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="feature"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteFeature" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/triggers">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="addTrigger" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="trigger"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="trigger"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="trigger"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="trigger"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="getTriggers" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="triggers"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="triggers"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceTriggers" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="triggers"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="triggers"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="triggers"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="triggers"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/triggers/{triggerLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="triggerLocator" style="template"
+                       type="xs:string"/>
+                <method id="getTrigger" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="trigger"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="trigger"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteTrigger" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/vcs-root-entries">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getVcsRootEntries" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entries" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entries" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceVcsRootEntries" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entries" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entries" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entries" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entries" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addVcsRootEntry" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entry" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entry" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entry" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entry" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/investigations">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getInvestigations" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="investigations" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="investigations" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/steps">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getSteps" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="steps"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="steps"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addStep" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="step"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="step"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="step"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="step"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceSteps" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="steps"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="steps"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="steps"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="steps"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/artifact-dependencies/{artifactDepLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="artifactDepLocator" style="template"
+                       type="xs:string"/>
+                <method id="getArtifactDep" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependency" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependency" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteArtifactDep" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/agent-requirements/{agentRequirementLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="agentRequirementLocator" style="template"
+                       type="xs:string"/>
+                <method id="getAgentRequirement" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirement" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirement" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteAgentRequirement" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/features">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getFeatures" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="features"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="features"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceFeatures" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="features"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="features"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="features"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="features"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addFeature" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="feature"
+                                            mediaType="*/*"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="feature"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="feature"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/vcs-root-entries/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="id" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getVcsRootEntry" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entry" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-entry" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteVcsRootEntry" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/steps/{stepId}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="stepId" style="template" type="xs:string"/>
+                <method id="getStep" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="step"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="step"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteStep" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeXML" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteBuildType" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="setBuildTypeField" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/buildTags">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeBuildsTags" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tags"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/parameters">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeParameters" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query"
+                               type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="changeBuildTypeParameters" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteAllBuildTypeParameters" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/parameters/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <method id="serveBuildTypeParameter" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="putBuildTypeParameter" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="deleteBuildTypeParameter" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/settings/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <method id="serveBuildTypeSettings" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="putBuildTypeSetting" name="PUT">
+                    <request>
+                        <representation mediaType="*/*"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/settings">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeSettings" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceBuildTypeSettings" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/template">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeTemplate" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="buildType-ref" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="buildType-ref" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="getTemplateAssociation" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="buildType-ref" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="buildType-ref" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteTemplateAssociation" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/steps/{stepId}/parameters">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="stepId" style="template" type="xs:string"/>
+                <method id="getStepParameters" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceStepParameters" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/steps/{stepId}/parameters/{parameterName}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="stepId" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="parameterName" style="template"
+                       type="xs:string"/>
+                <method id="getStepParameter" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="addStepParameter" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/steps/{stepId}/{fieldName}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="fieldName" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="stepId" style="template" type="xs:string"/>
+                <method id="getStepSetting" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="changeStepSetting" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/features/{featureId}/parameters">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="featureId" style="template" type="xs:string"/>
+                <method id="getFeatureParameters" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceFeatureParameters" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/features/{featureId}/parameters/{parameterName}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="featureId" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="parameterName" style="template"
+                       type="xs:string"/>
+                <method id="getFeatureParameter" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="addFeatureParameter" name="PUT">
+                    <request>
+                        <representation mediaType="*/*"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/features/{featureId}/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="featureId" style="template" type="xs:string"/>
+                <method id="getFeatureSetting" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="changeFeatureSetting" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/artifact-dependencies">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getArtifactDeps" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependencies" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependencies" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceArtifactDeps" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependencies" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependencies" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependencies" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependencies" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addArtifactDep" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependency" mediaType="*/*"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependency" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="artifact-dependency" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/snapshot-dependencies">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getSnapshotDeps" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependencies" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependencies" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceSnapshotDeps" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependencies" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependencies" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependencies" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependencies" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addSnapshotDep" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependency" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependency" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependency" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependency" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/snapshot-dependencies/{snapshotDepLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="snapshotDepLocator" style="template"
+                       type="xs:string"/>
+                <method id="getSnapshotDep" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependency" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="snapshot-dependency" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteSnapshotDep" name="DELETE"/>
+            </resource>
+            <resource path="/{btLocator}/triggers/{triggerLocator}/{fieldName}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="triggerLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="fieldName" style="template" type="xs:string"/>
+                <method id="getTriggerSetting" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="changeTriggerSetting" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/agent-requirements">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getAgentRequirements" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirements" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirements" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="replaceAgentRequirements" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirements" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirements" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirements" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirements" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addAgentRequirement" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirement" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirement" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirement" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="agent-requirement" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/vcs-root-instances">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getCurrentVcsInstances" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instances" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instances" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/builds">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuilds" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="status" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="triggeredByUser" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includePersonal" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeCanceled" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlyPinned" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="tag" style="query" type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="agentName" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceBuild" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceDate" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="start" style="query" type="xs:long"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="count" style="query" type="xs:int"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query"
+                               type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/builds/{buildLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildWithProject" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="build"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="build"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/builds/{buildLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/branches">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBranches" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="branches"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="branches"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/vcs-labeling">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getVCSLabelingOptions" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-labeling"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-labeling"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="setVCSLabelingOptions" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-labeling"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-labeling"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-labeling"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="vcs-labeling"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{btLocator}/newBuildTypeDescription">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="getExampleNewProjectDescription" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newBuildTypeDescription" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newBuildTypeDescription" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/vcs-root-instances">
+            <method id="serveInstances" name="GET">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query" type="xs:string"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                        element="vcs-root-instances" mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                        element="vcs-root-instances" mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{vcsRootInstanceLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootInstanceLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveInstance" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instance" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instance" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootInstanceLocator}/properties">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootInstanceLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveRootInstanceProperties" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{vcsRootInstanceLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="vcsRootInstanceLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveInstanceField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="setInstanceField" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/userGroups">
+            <method id="addGroup" name="POST">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="group"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="group"
+                                        mediaType="stubs.application/json"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="group"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="group"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <method id="serveGroups" name="GET">
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="groups"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="groups"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{groupLocator}/roles">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="groupLocator" style="template"
+                       type="xs:string"/>
+                <method id="addRole" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="listRoles" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addRolePut" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="roles"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{groupLocator}/roles/{roleId}/{scope}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="groupLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="scope" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="roleId" style="template" type="xs:string"/>
+                <method id="deleteRole" name="DELETE"/>
+                <method id="listRole" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="addRoleSimple" name="POST">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="role"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{groupLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="groupLocator" style="template"
+                       type="xs:string"/>
+                <method id="deleteGroup" name="DELETE"/>
+                <method id="serveGroup" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="group"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="group"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/debug">
+            <resource path="/database/tables">
+                <method id="listDBTables" name="GET">
+                    <response>
+                        <representation mediaType="text/plain; charset=UTF-8"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/database/query/{query}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="query" style="template" type="xs:string"/>
+                <method id="executeDBQuery" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="fieldDelimiter" style="query"
+                               type="xs:string" default=", "/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="count" style="query" type="xs:int"
+                               default="1000"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain; charset=UTF-8"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/vcsCheckingForChangesQueue">
+                <method id="scheduleCheckingForChanges" name="POST">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query"
+                               type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instances" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="vcs-root-instances" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/app/rest/projects">
+            <method id="createProject" name="POST">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                        element="newProjectDescription" mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                        element="newProjectDescription" mediaType="stubs.application/json"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <method id="serveProjects" name="GET">
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="projects"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="projects"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <method id="createEmptyProject" name="POST">
+                <request>
+                    <representation mediaType="text/plain"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project"
+                                        mediaType="stubs.application/xml"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project"
+                                        mediaType="stubs.application/json"/>
+                </response>
+            </method>
+            <resource path="/{projectLocator}/parentProject">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="getParentProject" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project-ref"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project-ref"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="setParentProject" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project-ref"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project-ref"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project-ref"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project-ref"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/buildTypes">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="createBuildType" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newBuildTypeDescription" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newBuildTypeDescription" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="serveBuildTypesInProject" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="createEmptyBuildType" name="POST">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/templates">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="createBuildTypeTemplate" name="POST">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newBuildTypeDescription" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newBuildTypeDescription" mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="serveTemplatesInProject" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildTypes"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="createEmptyBuildTypeTemplate" name="POST">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/parameters/{name}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="name" style="template" type="xs:string"/>
+                <method id="deleteParameter" name="DELETE"/>
+                <method id="serveParameter" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="putParameter" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/buildTypes/{btLocator}/builds">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuilds" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="status" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="triggeredByUser" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includePersonal" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="includeCanceled" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlyPinned" style="query"
+                               type="xs:boolean"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="tag" style="query" type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="agentName" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceBuild" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="sinceDate" style="query"
+                               type="xs:string"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="start" style="query" type="xs:long"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="count" style="query" type="xs:int"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="locator" style="query"
+                               type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="builds"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/buildTypes/{btLocator}/builds/{buildLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildWithProject" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="build"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="build"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/newProjectDescription">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="getExampleNewProjectDescription" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newProjectDescription" mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns=""
+                                            element="newProjectDescription" mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveProject" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="project"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteProject" name="DELETE"/>
+            </resource>
+            <resource path="/{projectLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveProjectField" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+                <method id="setProjectFiled" name="PUT">
+                    <request>
+                        <representation mediaType="text/plain"/>
+                    </request>
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/buildTypes/{btLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildType" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/templates/{btLocator}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeTemplates" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buildType"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/parameters">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveParameters" name="GET">
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="changeAllParameters" name="PUT">
+                    <request>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/xml"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="properties"
+                                            mediaType="stubs.application/json"/>
+                    </response>
+                </method>
+                <method id="deleteAllParameters" name="DELETE"/>
+            </resource>
+            <resource path="/{projectLocator}/buildTypes/{btLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <method id="serveBuildTypeFieldWithProject" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="/{projectLocator}/buildTypes/{btLocator}/builds/{buildLocator}/{field}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="field" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="projectLocator" style="template"
+                       type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="btLocator" style="template" type="xs:string"/>
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="buildLocator" style="template"
+                       type="xs:string"/>
+                <method id="serveBuildFieldWithProject" name="GET">
+                    <response>
+                        <representation mediaType="text/plain"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+    </resources>
+</application>
