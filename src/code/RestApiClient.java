@@ -61,6 +61,10 @@ public class RestApiClient {
     marshaller = context.createMarshaller();
   }
 
+  public User getUser(String userLocator){
+    return getEntity(userLocator, "users", User.class);
+  }
+
   public Project getProject(String projectLocator) {
     return getEntity(projectLocator, "projects", Project.class);
   }
@@ -93,12 +97,24 @@ public class RestApiClient {
     return getEntity("projects", Projects.class);
   }
 
+  public Users listUsers(){
+    return getEntity("users", Users.class);
+  }
+
   public Projects listProjects(String locator) {
     return getEntity("projects/" + locator, Projects.class);
   }
 
   public void deleteProject(String projectId) {
     executeDelete("projects/id:" + projectId);
+  }
+
+  public void deleteUser(String userId){
+    executeDelete("users/id:"+userId);
+  }
+
+  public void addUserRole(String userId, String projectId, String roleId){
+    executePut(String.format("users/id:%s/roles/%s/p:%s", userId, roleId, projectId), "");
   }
 
   public Project createProject(String name) {
