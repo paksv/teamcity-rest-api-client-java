@@ -1,5 +1,6 @@
 package code;
 
+import java.util.Random;
 import stubs.generated.*;
 
 import javax.xml.bind.JAXBException;
@@ -7,57 +8,45 @@ import java.util.Date;
 
 public class MyTries {
 
-  public static void main(String[] args) throws JAXBException {
+  public static void main(String[] args) throws JAXBException, InterruptedException {
     RestApiClient client = new RestApiClient("http://localhost:8111/", "s", "q");
-    ObjectFactory fact = new ObjectFactory();
-
+    Random r = new Random();
+    createProjectAndAddRole(client);
 /*
-    final Investigations investigations = client.getInvestigations("buildType:id:TestProj_TestConf");
-    for (Investigation inv : investigations.getInvestigation()) {
-      System.out.println(client.serializeObject(fact.createInvestigation(inv)));
+    for (int i=0; i<2000; i++) {
+      triggerBuild(client, "Three_Fast", null);
+      System.out.println(i);
     }
 */
-
-/*
-    final TestOccurrences tests = client.getTest("id:169,build:(id:55)");
-    for (TestOccurrence test : tests.getTestOccurrence()) {
-      System.out.println(client.serializeObject(fact.createTestOccurrence(test)));
-    }
-*/
-
-//      client.createProject("TestProj");
-//      client.createBuildType("TestConf", "name:TestProj");
-
-/*
-    final PropEntityStep step2 = new PropEntityStep();
-    step2.setType("simpleRunner");
-    step2.setName("My mega step");
-    final Properties props2 = new Properties();
-    props2.getProperty().add(propFrom("command.executable", "echo"));
-    props2.getProperty().add(propFrom("command.parameters", "hello"));
-    props2.getProperty().add(propFrom("teamcity.step.mode", "default"));
-    step2.setProperties(props2);
-    client.addBuildStep("id:TestProj_TestConf", step2);
-*/
-
-    Build buildData = new Build();
-    buildData.setBuildTypeId("TestProj_TestConf");
-    Properties buildProps = new Properties();
-    buildData.setPersonal(true);
-    buildProps.getProperty().add(propFrom("req", "50"));
-    buildData.setProperties(buildProps);
-    final Comment value = new Comment();
-    value.setText("Testttt");
-    buildData.setComment(value);
-    AgentRef agent = new AgentRef();
-    agent.setId(1);
-    buildData.setAgent(agent);
-    System.out.println(client.serializeObject(new ObjectFactory().createBuild(buildData)));
-
-    client.triggerBuild(buildData);
-    client.triggerBuild(buildData);
-
   }
+
+  private static void triggerBuild(final RestApiClient client, final String buildTypeId, final Property prop) throws JAXBException {
+    Build buildData = new Build();
+    buildData.setBuildTypeId(buildTypeId);
+    if (prop != null) {
+      Properties buildProps = new Properties();
+      buildProps.getProperty().add(prop);
+      buildData.setProperties(buildProps);
+      final Comment value = new Comment();
+      value.setText("Triggered via REST");
+      buildData.setComment(value);
+    }
+    client.triggerBuild(buildData);
+  }
+
+  private static void createProjectAndAddRole(final RestApiClient client){
+    final Users users = client.listUsers();
+    for (User user : users.getUser()) {
+      final Long userId = user.getId();
+
+      if ("s".equals(user.getUsername()))
+        continue;
+      final String projectName = user.getName() == null ? user.getUsername() : user.getName();
+      client.copyProject(projectName, "Stub");
+      client.addUserRole(userId.toString(), projectName, "PROJECT_ADMIN");
+    }
+  }
+
 
   private static Property propFrom(String name, String value){
     final Property property = new Property();
